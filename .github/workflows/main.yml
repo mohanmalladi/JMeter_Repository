@@ -24,7 +24,7 @@ jobs:
       - name: run-jmeter-test
         run: |
           echo "choice is ${{ github.event.inputs.choice }}" / ${{ inputs.choice }}
-          $GITHUB_WORKSPACE/apache-jmeter-5.3/bin/./jmeter.sh -n -t SampleAPITest_2mins.jmx -Jchoice="${{ github.event.inputs.choice }}" -l result.jtl
+          $GITHUB_WORKSPACE/apache-jmeter-5.3/bin/./jmeter.sh -n -t SampleAPITest_2mins.jmx -Jchoice="${{ github.event.inputs.choice }}"
           
 		  
       - name: Upload Results
