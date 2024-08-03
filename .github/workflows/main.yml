@@ -1,40 +1,45 @@
-name: CI
+name: JMeter Test
+
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
-  workflow_dispatch:
-jobs:
-  build:
-    runs-on: ubuntu-latest
-        
-    steps:
-      - uses: actions/checkout@v3
-      - name: setup-jmeter
-        run: |
-          sudo apt-get update
-          sudo apt install curl -y
-          sudo apt install -y default-jdk
-          sudo curl -O https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.3.tgz 
-          sudo tar -xvf apache-jmeter-5.3.tgz
-          cd $GITHUB_WORKSPACE/apache-jmeter-5.3/lib && sudo curl -O https://repo1.maven.org/maven2/kg/apc/cmdrunner/2.2.1/cmdrunner-2.2.1.jar
-          cd $GITHUB_WORKSPACE/apache-jmeter-5.3/lib/ext && sudo curl -O https://repo1.maven.org/maven2/kg/apc/jmeter-plugins-manager/1.6/jmeter-plugins-manager-1.6.jar
-          cd $GITHUB_WORKSPACE/apache-jmeter-5.3/lib && sudo java -jar cmdrunner-2.2.1.jar --tool org.jmeterplugins.repository.PluginManagerCMD install-all-except jpgc-hadoop,jpgc-oauth,ulp-jmeter-autocorrelator-plugin,ulp-jmeter-videostreaming-plugin,ulp-jmeter-gwt-plugin,tilln-iso8583
-      - name: run-jmeter-test
-        run: |
-          echo "choice is ${{ github.event.inputs.choice }}" / ${{ inputs.choice }}
-          $GITHUB_WORKSPACE/apache-jmeter-5.3/bin/./jmeter.sh -n -t SampleAPITest_2mins.jmx -Jchoice="${{ github.event.inputs.choice }}"
-          
-		  
-      - name: Upload Results
-        uses: actions/upload-artifact@v3
-        with:
-          name: jmeter-results
-          path: result.jtl
+    branches:
+      - main
 
-      - name: Upload HTML
-        uses: actions/upload-artifact@v3
-        with:
-          name: jmeter-results-HTML
-          path: index.html
+jobs:
+  jmeter:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Cache Docker layers
+      uses: actions/cache@v2
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-buildx-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-buildx-
+
+    - name: Pull JMeter Docker image
+      run: docker pull justb4/jmeter:5.4.1
+
+    - name: Run JMeter test
+      run: |
+        docker run --rm \
+          -v ${{ github.workspace }}:/jmeter \
+          -w /jmeter \
+          justb4/jmeter:5.4.1 \
+          -n -t /jmeter/your-test-plan.jmx -l /jmeter/results.jtl
+
+    - name: Archive JMeter results
+      uses: actions/upload-artifact@v2
+      with:
+        name: jmeter-results
+        path: results.jtl
