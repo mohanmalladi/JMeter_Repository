@@ -33,3 +33,9 @@ RUN    apk update \
 # Set global PATH such that "jmeter" command is found
 ENV PATH $PATH:$JMETER_BIN
 
+# Entrypoint has same signature as "jmeter" command
+COPY entrypoint.sh /
+
+WORKDIR	${JMETER_HOME}
+
+ENTRYPOINT ["/entrypoint.sh"]
