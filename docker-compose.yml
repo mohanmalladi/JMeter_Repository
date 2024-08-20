@@ -7,7 +7,7 @@ services:
     volumes:
       - ./jmeter:/jmeter    # Mount the local 'jmeter' directory to the container
     entrypoint: [ "jmeter" ]
-    command: ["-n", "-t", "/jmeter/test-plan.jmx", "-l", "/jmeter/results/result.jtl", "-j", "/jmeter/results/jmeter.log"]
+    command: ["-n", "-t", "/jmeter/SampleAPITest_2mins.jmx", "-l", "/jmeter/results/result.jtl", "-j", "/jmeter/results/jmeter.log"]
     working_dir: /jmeter
     networks:
       - jmeter_network
