@@ -21,7 +21,7 @@ jobs:
       run: docker build -t jmeter-test .
 
     - name: Run JMeter test
-      run: docker run --rm jmeter-test -n -t /test-plan.jmx -l /results/result.jtl -j /results/jmeter.log
+      run: docker run --rm jmeter-test -n -t /SampleAPITest_2mins.jmx -l /results/result.jtl -j /results/jmeter.log
 
     - name: Upload JMeter results
       uses: actions/upload-artifact@v2
