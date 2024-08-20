@@ -23,7 +23,7 @@ run:
 	-JTARGET_HOST=${TARGET_HOST} -JTARGET_PORT=${TARGET_PORT} \
 	-JTARGET_PATH=${TARGET_PATH} -JTARGET_KEYWORD=${TARGET_KEYWORD} \
 	-JTHREADS=$(THREADS) \
-	-n -t $(TEST_DIR)/test-plan.jmx -l $(TEST_DIR)/test-plan.jtl -j $(TEST_DIR)/jmeter.log \
+	-n -t SampleAPITest_2mins.jmx -l test-plan.jtl -j jmeter.log \
 	-e -o $(REPORT_DIR)
 
 report:
