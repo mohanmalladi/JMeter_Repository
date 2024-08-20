@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  jmeter:
+    image: justb4/jmeter:5.5
+    container_name: jmeter-container
+    volumes:
+      - ./jmeter:/jmeter    # Mount the local 'jmeter' directory to the container
+    entrypoint: [ "jmeter" ]
+    command: ["-n", "-t", "/jmeter/test-plan.jmx", "-l", "/jmeter/results/result.jtl", "-j", "/jmeter/results/jmeter.log"]
+    working_dir: /jmeter
+    networks:
+      - jmeter_network
+
+networks:
+  jmeter_network:
+    driver: bridge
