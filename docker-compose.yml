@@ -5,7 +5,7 @@ services:
     image: justb4/jmeter:5.5
     container_name: jmeter-container
     volumes:
-      - ./jmeter:/jmeter    # Mount the local 'jmeter' directory to the container
+      - ./jmeter:    # Mount the local 'jmeter' directory to the container
     entrypoint: [ "jmeter" ]
-    command: ["-n", "-t", "/SampleAPITest_2mins.jmx", "-l", "/result.jtl", "-j", "/jmeter.log"]
+    command: ["-n", "-t", "SampleAPITest_2mins.jmx", "-l", "result.jtl", "-j", "jmeter.log"]
    
