@@ -10,7 +10,7 @@ export TARGET_PORT="80"
 export TARGET_PATH="/kaarten.html"
 export TARGET_KEYWORD="Kaartdiensten"
 
-T_DIR=tests/trivial
+
 
 # Reporting dir: start fresh
 R_DIR=${T_DIR}/report
@@ -22,14 +22,14 @@ mkdir -p ${R_DIR}
 ./run.sh -Dlog_level.jmeter=DEBUG \
 	-JTARGET_HOST=${TARGET_HOST} -JTARGET_PORT=${TARGET_PORT} \
 	-JTARGET_PATH=${TARGET_PATH} -JTARGET_KEYWORD=${TARGET_KEYWORD} \
-	-n -t ${T_DIR}/SampleAPITest_2mins.jmx -l ${T_DIR}/test-plan.jtl -j ${T_DIR}/jmeter.log \
+	-n -t SampleAPITest_2mins.jmx -l test-plan.jtl -j jmeter.log \
 	-e -o ${R_DIR}
 
 echo "==== jmeter.log ===="
 cat ${T_DIR}/jmeter.log
 
 echo "==== Raw Test Report ===="
-cat ${T_DIR}/test-plan.jtl
+cat test-plan.jtl
 
 echo "==== HTML Test Report ===="
 echo "See HTML test report in ${R_DIR}/index.html"
