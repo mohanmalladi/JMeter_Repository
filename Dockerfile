@@ -39,3 +39,15 @@ COPY entrypoint.sh /
 WORKDIR	${JMETER_HOME}
 
 ENTRYPOINT ["/entrypoint.sh"]
+
+FROM justb4/jmeter:5.5
+
+# Copy the entrypoint script into the container
+COPY entrypoint.sh /entrypoint.sh
+
+# Grant execution permissions
+RUN chmod +x /entrypoint.sh
+
+# Set the entry point to the script
+ENTRYPOINT ["/entrypoint.sh"]
+
