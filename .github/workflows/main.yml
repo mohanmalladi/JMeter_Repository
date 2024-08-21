@@ -20,6 +20,9 @@ jobs:
     - name: Build Docker image
       run: docker build -t jmeter-test .
 
+    - uses: tj-actions/docker-run@v2.2.1
+      # Docker image
+     
     - name: Run JMeter test
       run: docker run --rm jmeter-test -n -t SampleAPITest_2mins.jmx -l result.jtl -j jmeter.log
 
