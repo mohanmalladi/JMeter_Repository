@@ -1,31 +1,18 @@
 name: Docker
-
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4.1.7
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-    
-    - name: Build Docker image
-      run: docker build -t jmeter-test .
-
-    - uses: tj-actions/docker-run@v2.2.1
-      # Docker image
      
+    - name: Build Docker image
+      run: docker build -t jmeter-test.
     - name: Run JMeter test
       run: docker run --rm jmeter-test -n -t SampleAPITest_2mins.jmx -l result.jtl -j jmeter.log
-
     - name: Upload JMeter results
       uses: actions/upload-artifact@v2
       with:
